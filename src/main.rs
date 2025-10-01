@@ -1,14 +1,25 @@
 
 mod vault;
+mod cli;
 
-use crate::vault::*;
+use crate::cli::*;
+use clap::Parser;
 
 fn main() {
-    let test_entry = Entry {
-        service: String::from("fakesite.com"),
-        username: String::from("gurt"),
-        password: String::from("12345"),
-    };
+    let cli = Cli::parse();
 
-    println!("password: {}", test_entry.service);
+    match cli.command {
+        Commands::Add { service, username, password} => {
+            println!("add {}, {}, {:?}", service, username, password);
+        }
+        Commands::Get {service } => {
+            println!("get {}", service);
+        }
+        Commands::List => {
+            println!("used list arg");
+        }
+        Commands::Delete {service } => {
+            println!("delete {}", service);
+        }
+    }
 }
